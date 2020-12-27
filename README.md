@@ -24,3 +24,4 @@ Todo + Pomodoro app !
 - [ ] User can set a long break session of 10 minutes. This will be activated every 4th break session
 - [ ] User should see a moving 3D potato object that is exhausted over time.
 - [ ] User should have dark mode option.
+a
