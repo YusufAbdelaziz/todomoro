@@ -18,8 +18,8 @@ export const Todo = () => {
       </h1>
       <div
         className={classNames(
-          'my-4 container w-5/12',
-          'flex items-center flex-col md:flex-row md:justify-between'
+          'my-4 container w-5/12 md:w-1/2',
+          'flex items-center flex-col md:flex-row md:justify-evenly'
         )}
       >
         <form
@@ -38,7 +38,7 @@ export const Todo = () => {
               'mb-4 md:mb-0',
               'py-1',
               'focus:ring-gray-400 focus:shadow-none focus:border-transparent focus:ring-1 focus:outline-none',
-              'w-72 lg:w-96',
+              'w-72 lg:w-80',
               'rounded-full',
               'outline-none'
             )}
