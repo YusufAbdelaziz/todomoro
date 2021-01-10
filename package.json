@@ -1,5 +1,5 @@
 {
-  "homepage": "https://yusufabdelaziz.github.io/Todomoro/",
+  "homepage": "https://yusufabdelaziz.github.io/Todomoro",
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
@@ -28,7 +28,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -b master -d build",
+    "deploy": "gh-pages -d build",
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
