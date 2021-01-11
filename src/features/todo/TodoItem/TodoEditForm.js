@@ -31,7 +31,7 @@ export const TodoEditForm = ({ todo, setEditMode }) => {
       <div
         id="buttons"
         className={classNames(
-          'flex flex-row-reverse self-end mt-4 mx-1 w-full md:w-6/12 lg:w-4/12 justify-between'
+          'flex flex-row-reverse self-end mt-4 w-full md:w-6/12 lg:w-3/12 justify-between'
         )}
       >
         <Button
