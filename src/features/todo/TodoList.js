@@ -25,7 +25,7 @@ export const TodoList = () => {
 
   return (
     <div className="w-64 sm:w-1/2 lg:w-7/12">
-      {todoTransitions((styles, todoId) => (
+      {/* {todoTransitions((styles, todoId) => (
         <animated.div
           className={classNames(
             ' rounded-md shadow-md ',
@@ -39,6 +39,19 @@ export const TodoList = () => {
         >
           <TodoItem todoId={todoId} />
         </animated.div>
+      ))} */}
+      {todoIds.map(todoId => (
+        <div
+          key={todoId}
+          className={classNames(
+            ' rounded-md shadow-md ',
+            'flex flex-row justify-between',
+            'border-t-2 border-r-2 border-l-2 border-opacity-60',
+            'my-2 p-3'
+          )}
+        >
+          <TodoItem todoId={todoId} />
+        </div>
       ))}
     </div>
   );
