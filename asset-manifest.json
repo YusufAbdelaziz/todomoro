@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/Todomoro/static/css/main.9f8d0449.chunk.css",
-    "main.js": "/Todomoro/static/js/main.dbde3b34.chunk.js",
-    "main.js.map": "/Todomoro/static/js/main.dbde3b34.chunk.js.map",
+    "main.css": "/Todomoro/static/css/main.5d593c07.chunk.css",
+    "main.js": "/Todomoro/static/js/main.771e83ba.chunk.js",
+    "main.js.map": "/Todomoro/static/js/main.771e83ba.chunk.js.map",
     "runtime-main.js": "/Todomoro/static/js/runtime-main.dc5d56b0.js",
     "runtime-main.js.map": "/Todomoro/static/js/runtime-main.dc5d56b0.js.map",
     "static/js/2.4a45b1da.chunk.js": "/Todomoro/static/js/2.4a45b1da.chunk.js",
     "static/js/2.4a45b1da.chunk.js.map": "/Todomoro/static/js/2.4a45b1da.chunk.js.map",
     "index.html": "/Todomoro/index.html",
-    "static/css/main.9f8d0449.chunk.css.map": "/Todomoro/static/css/main.9f8d0449.chunk.css.map",
+    "static/css/main.5d593c07.chunk.css.map": "/Todomoro/static/css/main.5d593c07.chunk.css.map",
     "static/js/2.4a45b1da.chunk.js.LICENSE.txt": "/Todomoro/static/js/2.4a45b1da.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.dc5d56b0.js",
     "static/js/2.4a45b1da.chunk.js",
-    "static/css/main.9f8d0449.chunk.css",
-    "static/js/main.dbde3b34.chunk.js"
+    "static/css/main.5d593c07.chunk.css",
+    "static/js/main.771e83ba.chunk.js"
   ]
 }
