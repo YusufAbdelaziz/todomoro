@@ -15,9 +15,9 @@ Todo + Pomodoro app !
 ## Bonus features
 
 - [x] User can edit a to-do
-- [ ] User can see a list with all the completed to-do's
-- [ ] User can see a list with all the active to-do's
-- [ ] User can see the date when he created the to-do
+- [x] User can see a list with all the completed to-do's
+- [x] User can see a list with all the active to-do's
+- [x] User can see the date when he created the to-do
 - [ ] When closing the browser window the to-do's will be stored and when the User returns, the data will be retrieved
 - [ ] User can hear a sound playing when the timer hits 00:00 - denoting that the session has ended
 - [ ] User can change / customize the minutes in both sessions before starting

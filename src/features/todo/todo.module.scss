@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  td {
+    @apply cursor-pointer;
+    @apply text-gray-500;
+    @apply hover:bg-gray-400;
+    @apply select-none;
+    @apply hover:text-white;
+    @apply transition-all duration-200 ease-in-out delay-75;
+  }
+}

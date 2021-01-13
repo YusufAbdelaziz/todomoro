@@ -16,6 +16,7 @@ function pickRandomCompeletionIcon() {
     '🤓',
     '🙌',
     '👏',
+    '🤠',
   ];
   return icons[Math.floor(Math.random(0) * icons.length)];
 }
