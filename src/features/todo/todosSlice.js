@@ -1,6 +1,11 @@
-import { createSlice, createEntityAdapter, nanoid } from '@reduxjs/toolkit';
-import { parseISO } from 'date-fns';
-import { compareAsc } from 'date-fns/esm';
+import {
+  createSlice,
+  createEntityAdapter,
+  nanoid,
+  createAsyncThunk,
+} from '@reduxjs/toolkit';
+import { parseISO, compareAsc } from 'date-fns';
+import localForage from 'localforage';
 
 function pickRandomCompeletionIcon() {
   const icons = [
@@ -28,14 +33,25 @@ const todosAdapter = createEntityAdapter({
   },
 });
 
-const initialState = todosAdapter.getInitialState();
-
+// Adding isLoading field to fetch stored todos in localForage asynchronously.
+const initialState = todosAdapter.getInitialState({
+  isLoading: false,
+  error: false,
+});
+const todosFetched = createAsyncThunk('todos/todosFetched', async () => {
+  const todos = await localForage.getItem('todos');
+  if (!todos) {
+    return null;
+  }
+  return todos;
+});
 const todosSlice = createSlice({
   initialState,
   name: 'todos',
   reducers: {
     todoAdded: {
       prepare(task) {
+        console.log('adding a todo now', task);
         const id = nanoid();
         return {
           payload: {
@@ -54,9 +70,54 @@ const todosSlice = createSlice({
     todoUpdated: todosAdapter.updateOne,
     todoRemoved: todosAdapter.removeOne,
   },
+  extraReducers: {
+    [todosFetched.pending]: state => {
+      state.isLoading = true;
+    },
+    [todosFetched.rejected]: state => {
+      state.error = true;
+      state.entities = [];
+    },
+    [todosFetched.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      console.log(action.payload, 'payloaddd');
+      if (isObject(action.payload)) {
+        console.log('i am adding many now');
+        todosAdapter.addMany(state, action.payload.entities);
+      }
+    },
+  },
 });
+const { todoAdded, todoUpdated, todoRemoved } = todosSlice.actions;
 
-export const { todoAdded, todoUpdated, todoRemoved } = todosSlice.actions;
+const todoThunkAdded = createAsyncThunk(
+  'todos/todoThunkAdded',
+  async (task, { dispatch, getState }) => {
+    console.log('i am adding', task);
+    dispatch(todoAdded(task));
+    try {
+      await localForage.setItem('todos', getState().todos);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
+const todoThunkUpdated = createAsyncThunk(
+  'todos/todoThunkUpdated',
+  async (changes, { dispatch, getState }) => {
+    dispatch(todoUpdated(changes));
+    await localForage.setItem('todos', getState().todos);
+  }
+);
+const todoThunkRemoved = createAsyncThunk(
+  'todos/todoThunkRemoved',
+  async (id, { dispatch, getState }) => {
+    dispatch(todoRemoved(id));
+    console.log(getState());
+    await localForage.setItem('todos', getState().todos);
+  }
+);
+export { todoThunkAdded, todoThunkUpdated, todoThunkRemoved, todosFetched };
 
 export default todosSlice.reducer;
 
@@ -65,3 +126,7 @@ export const {
   selectAll: selectAllTodos,
   selectIds: selectTodoIds,
 } = todosAdapter.getSelectors(state => state.todos);
+
+function isObject(item) {
+  return typeof item === 'object' && !Array.isArray(item) && item !== null;
+}

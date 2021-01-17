@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
-import { todoUpdated } from '../todosSlice';
+import { todoThunkUpdated } from '../todosSlice';
 import { Button } from '../../common components/Button';
 
 export const TodoEditForm = ({ todo, setEditMode }) => {
@@ -56,7 +56,7 @@ export const TodoEditForm = ({ todo, setEditMode }) => {
   }
   function saveTodoChange() {
     dispatch(
-      todoUpdated({
+      todoThunkUpdated({
         id: todo.id,
         changes: {
           task: inputText,

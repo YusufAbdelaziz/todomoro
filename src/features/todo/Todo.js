@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { TodoList } from './TodoList';
-import { todoAdded } from './todosSlice';
+import { todoThunkAdded } from './todosSlice';
 import classNames from 'classnames';
 import './todo.module.scss';
 export const Todo = () => {
@@ -9,7 +9,7 @@ export const Todo = () => {
   const [todosState, setTodosState] = useState('all');
   const dispatch = useDispatch();
   const submitTodo = () => {
-    dispatch(todoAdded(todoText));
+    dispatch(todoThunkAdded(todoText.trim()));
     setTodoText('');
   };
   return (

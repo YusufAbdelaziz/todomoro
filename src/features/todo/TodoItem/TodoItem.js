@@ -1,7 +1,11 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectTodoById, todoUpdated, todoRemoved } from '../todosSlice';
+import {
+  selectTodoById,
+  todoThunkUpdated,
+  todoThunkRemoved,
+} from '../todosSlice';
 import classNames from 'classnames';
 import styles from './todoItem.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,8 +20,6 @@ export const TodoItem = ({ todoId, todoState }) => {
   const dispatch = useDispatch();
   const [hasEdited, setEditMode] = useState(false);
   const [showModal, toggleModal] = useState(false);
-  console.log('Todo', todo);
-  console.log('TodoId', todoId);
   if (
     !todo ||
     (todo.hasCompleted === false && todoState === 'completed') ||
@@ -38,35 +40,44 @@ export const TodoItem = ({ todoId, todoState }) => {
       {hasEdited ? (
         <TodoEditForm todo={todo} setEditMode={setEditMode} />
       ) : (
-        <Fragment>
-          <div className="flex flex-row">
-            <label
-              htmlFor={`checkbox ${todoId}`}
-              className={classNames(
-                { 'text-gray-700': !todo.hasCompleted },
-                { 'line-through text-gray-400': todo.hasCompleted },
-                styles['custom-container']
-              )}
-            >
-              {todo.task}
-
-              <input
-                type="checkbox"
-                id={`checkbox ${todoId}`}
-                checked={todo.hasCompleted || false}
-                onChange={e => {
-                  e.stopPropagation();
+        <div className="grid grid-flow-col grid-cols-9 md:grid-cols-10 lg:grid-cols-12">
+          <div className="col-span-6 md:col-span-7 lg:col-span-10 flex flex-row">
+            <div className={classNames(styles['custom-container'])}>
+              <p
+                onClick={() =>
                   dispatch(
-                    todoUpdated({
+                    todoThunkUpdated({
                       id: todoId,
                       changes: { hasCompleted: !todo.hasCompleted },
                     })
-                  );
-                }}
-              />
-
-              <span className={styles['checkmark']}></span>
-            </label>
+                  )
+                }
+                className={classNames(
+                  { 'text-gray-700': !todo.hasCompleted },
+                  { 'line-through text-gray-400': todo.hasCompleted },
+                  'truncate overflow-auto'
+                )}
+              >
+                {todo.task}
+              </p>
+              <label htmlFor={`checkbox ${todoId}`} className="cursor-pointer">
+                <input
+                  type="checkbox"
+                  id={`checkbox ${todoId}`}
+                  checked={todo.hasCompleted || false}
+                  onChange={e => {
+                    e.stopPropagation();
+                    dispatch(
+                      todoThunkUpdated({
+                        id: todoId,
+                        changes: { hasCompleted: !todo.hasCompleted },
+                      })
+                    );
+                  }}
+                />
+                <span className={styles['checkmark']}></span>
+              </label>
+            </div>
             {todo.hasCompleted ? (
               <span className="self-center ml-2 text-md">
                 {todo.completetionEmoji}
@@ -75,7 +86,8 @@ export const TodoItem = ({ todoId, todoState }) => {
               <></>
             )}
           </div>
-          <div className="flex flex-row justify-between self-center w-20">
+
+          <div className="flex flex-row justify-between self-center w-20 ml-2 col-2 md:col-2 ">
             <FontAwesomeIcon
               onClick={() => toggleModal(!showModal)}
               size="1x"
@@ -83,7 +95,7 @@ export const TodoItem = ({ todoId, todoState }) => {
               className={classNames(styles['icon'])}
             />
             <FontAwesomeIcon
-              onClick={() => dispatch(todoRemoved(todoId))}
+              onClick={() => dispatch(todoThunkRemoved(todoId))}
               icon={faTrash}
               className={classNames(styles['icon'])}
               size="1x"
@@ -95,7 +107,7 @@ export const TodoItem = ({ todoId, todoState }) => {
               size="1x"
             />
           </div>
-        </Fragment>
+        </div>
       )}
       {showModal ? (
         <Modal>

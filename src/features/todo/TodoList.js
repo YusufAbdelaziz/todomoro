@@ -3,10 +3,13 @@ import { useSelector } from 'react-redux';
 import { selectTodoIds } from './todosSlice';
 import { TodoItem } from './TodoItem/TodoItem';
 import PropTypes from 'prop-types';
+import { LoadingIndicator } from '../common components/LoadingIndicator';
+import './todo.module.scss';
 // import { useTransition, animated, config } from 'react-spring';
 
 export const TodoList = ({ todosState }) => {
   const todoIds = useSelector(selectTodoIds);
+  const isLoading = useSelector(state => state.todos.isLoading);
   console.log('TodoList is rendered');
 
   // For some reason, transitions aren't working in deployment.
@@ -20,6 +23,10 @@ export const TodoList = ({ todosState }) => {
   //   keys: todoIds.map(id => id),
   // });
 
+  if (isLoading) {
+    console.log('loaading');
+    return <LoadingIndicator />;
+  }
   if (todoIds.length === 0) {
     return (
       <p className="pt-8 text-xl text-gray-300 select-none">
