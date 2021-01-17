@@ -18,7 +18,7 @@ Todo + Pomodoro app !
 - [x] User can see a list with all the completed to-do's
 - [x] User can see a list with all the active to-do's
 - [x] User can see the date when he created the to-do
-- [ ] When closing the browser window the to-do's will be stored and when the User returns, the data will be retrieved
+- [x] When closing the browser window the to-do's will be stored and when the User returns, the data will be retrieved
 - [ ] User can hear a sound playing when the timer hits 00:00 - denoting that the session has ended
 - [ ] User can change / customize the minutes in both sessions before starting
 - [ ] User can set a long break session of 10 minutes. This will be activated every 4th break session
