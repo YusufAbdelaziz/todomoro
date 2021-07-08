@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/Todomoro/static/css/main.a3e8abc1.chunk.css",
-    "main.js": "/Todomoro/static/js/main.a3d7e65b.chunk.js",
-    "main.js.map": "/Todomoro/static/js/main.a3d7e65b.chunk.js.map",
-    "runtime-main.js": "/Todomoro/static/js/runtime-main.cc5973ed.js",
-    "runtime-main.js.map": "/Todomoro/static/js/runtime-main.cc5973ed.js.map",
-    "static/js/2.ae58dffa.chunk.js": "/Todomoro/static/js/2.ae58dffa.chunk.js",
-    "static/js/2.ae58dffa.chunk.js.map": "/Todomoro/static/js/2.ae58dffa.chunk.js.map",
-    "index.html": "/Todomoro/index.html",
-    "static/css/main.a3e8abc1.chunk.css.map": "/Todomoro/static/css/main.a3e8abc1.chunk.css.map",
-    "static/js/2.ae58dffa.chunk.js.LICENSE.txt": "/Todomoro/static/js/2.ae58dffa.chunk.js.LICENSE.txt"
+    "main.css": "/todomoro/static/css/main.1709e7c6.chunk.css",
+    "main.js": "/todomoro/static/js/main.aed6548f.chunk.js",
+    "main.js.map": "/todomoro/static/js/main.aed6548f.chunk.js.map",
+    "runtime-main.js": "/todomoro/static/js/runtime-main.b357eb50.js",
+    "runtime-main.js.map": "/todomoro/static/js/runtime-main.b357eb50.js.map",
+    "static/js/2.c985e123.chunk.js": "/todomoro/static/js/2.c985e123.chunk.js",
+    "static/js/2.c985e123.chunk.js.map": "/todomoro/static/js/2.c985e123.chunk.js.map",
+    "index.html": "/todomoro/index.html",
+    "static/css/main.1709e7c6.chunk.css.map": "/todomoro/static/css/main.1709e7c6.chunk.css.map",
+    "static/js/2.c985e123.chunk.js.LICENSE.txt": "/todomoro/static/js/2.c985e123.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.cc5973ed.js",
-    "static/js/2.ae58dffa.chunk.js",
-    "static/css/main.a3e8abc1.chunk.css",
-    "static/js/main.a3d7e65b.chunk.js"
+    "static/js/runtime-main.b357eb50.js",
+    "static/js/2.c985e123.chunk.js",
+    "static/css/main.1709e7c6.chunk.css",
+    "static/js/main.aed6548f.chunk.js"
   ]
 }
