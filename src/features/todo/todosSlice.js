@@ -7,7 +7,7 @@ import {
 import { parseISO, compareAsc } from 'date-fns';
 import localForage from 'localforage';
 
-function pickRandomCompeletionIcon() {
+function pickRandomCompletionIcon() {
   const icons = [
     '😎',
     '🐱‍🏍',
@@ -51,12 +51,11 @@ const todosSlice = createSlice({
   reducers: {
     todoAdded: {
       prepare(task) {
-        console.log('adding a todo now', task);
         const id = nanoid();
         return {
           payload: {
             task,
-            completetionEmoji: pickRandomCompeletionIcon(),
+            completionEmoji: pickRandomCompletionIcon(),
             hasCompleted: false,
             id,
             date: new Date().toISOString(),
@@ -80,9 +79,7 @@ const todosSlice = createSlice({
     },
     [todosFetched.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log(action.payload, 'payloaddd');
       if (isObject(action.payload)) {
-        console.log('i am adding many now');
         todosAdapter.addMany(state, action.payload.entities);
       }
     },
@@ -93,7 +90,6 @@ const { todoAdded, todoUpdated, todoRemoved } = todosSlice.actions;
 const todoThunkAdded = createAsyncThunk(
   'todos/todoThunkAdded',
   async (task, { dispatch, getState }) => {
-    console.log('i am adding', task);
     dispatch(todoAdded(task));
     try {
       await localForage.setItem('todos', getState().todos);

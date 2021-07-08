@@ -1,11 +1,15 @@
 import React from 'react';
-import './index.css';
 import { Todo } from './features/todo/Todo';
-
+import { Pomodoro } from './features/pomodoro/Pomodoro';
 function App() {
   return (
-    <div className="container my-5 mx-auto">
+    <div
+      className="min-h-screen min-w-full flex flex-col md:flex-row md:justify-items-start"
+      style={{ backgroundColor: '#1E2140' }}
+    >
       <Todo />
+      <div className="mt-5 md:mt-0" />
+      <Pomodoro />
     </div>
   );
 }

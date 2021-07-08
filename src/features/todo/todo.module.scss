@@ -3,12 +3,20 @@
 @tailwind utilities;
 
 @layer base {
-  td {
+  .custom-button {
     @apply cursor-pointer;
     @apply text-gray-500;
-    @apply hover:bg-gray-400;
     @apply select-none;
-    @apply hover:text-white;
     @apply transition-all duration-200 ease-in-out delay-75;
+    @apply py-1;
+    &:hover {
+      background-color: rgb(250, 107, 104);
+      color: #15172c;
+      font-weight: bold;
+    }
+  }
+  .filters {
+    background-color: #1b1d39;
+    color: rgb(107, 114, 128);
   }
 }

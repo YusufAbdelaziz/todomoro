@@ -30,10 +30,10 @@ export const TodoItem = ({ todoId, todoState }) => {
   return (
     <div
       className={classNames(
-        'flex flex-row justify-between w-full',
-        ' rounded-md shadow-md ',
+        'flex flex-row justify-between mx-4',
+        'rounded-md shadow-lg',
         'flex flex-row justify-between',
-        'border-t-2 border-r-2 border-l-2 border-opacity-60',
+        'border border-red-400',
         'my-2 p-3'
       )}
     >
@@ -41,7 +41,7 @@ export const TodoItem = ({ todoId, todoState }) => {
         <TodoEditForm todo={todo} setEditMode={setEditMode} />
       ) : (
         <div className="grid grid-flow-col grid-cols-9 md:grid-cols-10 lg:grid-cols-12">
-          <div className="col-span-6 md:col-span-7 lg:col-span-10 flex flex-row">
+          <div className="col-span-6 md:col-span-7 lg:col-span-9 flex flex-row">
             <div className={classNames(styles['custom-container'])}>
               <p
                 onClick={() =>
@@ -53,7 +53,7 @@ export const TodoItem = ({ todoId, todoState }) => {
                   )
                 }
                 className={classNames(
-                  { 'text-gray-700': !todo.hasCompleted },
+                  { 'text-gray-300': !todo.hasCompleted },
                   { 'line-through text-gray-400': todo.hasCompleted },
                   'truncate overflow-auto'
                 )}
@@ -80,14 +80,17 @@ export const TodoItem = ({ todoId, todoState }) => {
             </div>
             {todo.hasCompleted ? (
               <span className="self-center ml-2 text-md">
-                {todo.completetionEmoji}
+                {todo.completionEmoji}
               </span>
             ) : (
               <></>
             )}
           </div>
 
-          <div className="flex flex-row justify-between self-center w-20 ml-2 col-2 md:col-2 ">
+          <div
+            id="action-buttons"
+            className="flex flex-row justify-between self-center w-20 ml-2 md:ml-6 lg:ml-9 xl:ml-12 col-2 md:col-2"
+          >
             <FontAwesomeIcon
               onClick={() => toggleModal(!showModal)}
               size="1x"
@@ -112,19 +115,18 @@ export const TodoItem = ({ todoId, todoState }) => {
       {showModal ? (
         <Modal>
           <div
-            className={classNames(
-              'flex flex-col container p-6 bg-white rounded-lg'
-            )}
+            style={{ backgroundColor: '#1b1d39' }}
+            className={classNames('flex flex-col container p-6 rounded-lg')}
           >
-            <p>
+            <p className="text-gray-200">
               <span className="text-gray-400 font-semibold">Task</span> :{' '}
               {todo.task}
             </p>
-            <p>
+            <p className="text-gray-200">
               <span className="text-gray-400 font-semibold">Created at</span> :{' '}
               {format(parseISO(todo.date), 'PPpp')}
             </p>
-            <p>
+            <p className="text-gray-200">
               <span className="text-gray-400 font-semibold">Finished</span> :{' '}
               {todo.hasCompleted ? 'Yes' : 'No'}
             </p>

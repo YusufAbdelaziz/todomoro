@@ -36,7 +36,7 @@ export const TodoList = ({ todosState }) => {
   }
 
   return (
-    <div className="w-72 sm:w-1/2 lg:w-7/12">
+    <div className="container">
       {/* {todoTransitions((styles, todoId) => (
         <animated.div
           className={classNames(
