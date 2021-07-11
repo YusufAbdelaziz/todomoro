@@ -5,109 +5,167 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import { Modal } from '../common components/Modal';
 import { Settings } from './Settings.jsx';
+import {
+  CircularProgressbarWithChildren,
+  buildStyles,
+} from 'react-circular-progressbar';
+import sound from '../../assets/success.mp3';
 
 export const Pomodoro = () => {
-  const [seconds, setSeconds] = useState(0);
-  const [minutes, setMinutes] = useState(25);
+  const [pomodoroSeconds, setPomodoroSeconds] = useState(0);
+  const [pomodoroMinutes, setPomodoroMinutes] = useState(25);
+  const [breakSeconds, setBreakSeconds] = useState(0);
+  const [breakMinutes, setBreakMinutes] = useState(5);
   const [hasTimerStarted, setTimerState] = useState(false);
+  const [hasBreakStarted, setBreakState] = useState(false);
   const [showModal, toggleModal] = useState(false);
-  const initialMinutes = useRef(0);
+  const initialPomodoroMinutes = useRef(0);
+  const initialBreakMinutes = useRef(0);
 
-  useInterval(() => countDown(), hasTimerStarted ? 1000 : null);
-  function countDown() {
-    if (seconds == 0 && minutes == 0) {
-      setTimerState(false);
-      setMinutes(1);
-    } else if (seconds == 0) {
-      setSeconds(59);
-      if (initialMinutes.current < minutes) {
-        initialMinutes.current = minutes;
-      }
-      setMinutes(minutes - 1);
+  useInterval(
+    () => (hasBreakStarted ? countBreakDown() : countPomodoroDown()),
+    hasTimerStarted ? 1000 : null
+  );
+  const audioElement = document.getElementById('success-audio');
+
+  function getProgressIndicatorValue() {
+    if (hasBreakStarted) {
+      let totalMinutes = breakMinutes + breakSeconds / 60;
+      return (totalMinutes / initialBreakMinutes.current) * 100;
     } else {
-      setSeconds(seconds - 1);
+      let totalMinutes = pomodoroMinutes + pomodoroSeconds / 60;
+      return (totalMinutes / initialPomodoroMinutes.current) * 100;
     }
   }
   return (
     <div
-      className="flex flex-col items-center justify-start w-full mt-10"
-      style={{ backgroundColor: '#1E2140' }}
+      className="flex flex-col items-center justify-start w-full md:mt-20 mt-40 "
+      // style={{ backgroundColor: '#1E2140' }}
     >
-      <div className={classNames('flex flex-row items-center justify-center')}>
-        <div
-          id="clock"
-          className={classNames(
-            'w-80 h-80 rounded-full border-black border-solid border-2 border-opacity-40',
-            'flex flex-col items-center justify-between m-5'
-          )}
+      <div className="w-72 h-72">
+        <CircularProgressbarWithChildren
+          value={getProgressIndicatorValue()}
+          strokeWidth={3}
+          styles={buildStyles({
+            pathColor: hasBreakStarted
+              ? `rgba(226, 107, 90)`
+              : `rgba(248, 113, 113)`,
+            textColor: 'white',
+          })}
         >
-          <div id="time" className={styles.time}>
-            <span className={styles['time-text']}>
-              {minutes < 10 ? `0${minutes}` : minutes}:
-              {seconds < 10 ? `0${seconds}` : seconds}
+          <div>
+            <span className={`${styles['time-text']}`}>
+              {hasBreakStarted
+                ? `${breakMinutes < 10 ? `0${breakMinutes}` : breakMinutes}:${
+                    breakSeconds < 10 ? `0${breakSeconds}` : breakSeconds
+                  }`
+                : `${
+                    pomodoroMinutes < 10
+                      ? `0${pomodoroMinutes}`
+                      : pomodoroMinutes
+                  }:${
+                    pomodoroSeconds < 10
+                      ? `0${pomodoroSeconds}`
+                      : pomodoroSeconds
+                  }`}
             </span>
           </div>
-          <div className="flex flex-col justify-between h-20 mb-4">
-            <button
-              onClick={() => setTimerState(!hasTimerStarted)}
-              className="text-white font-mono text-2xl focus:outline-none"
-            >
-              {hasTimerStarted ? 'Pause' : 'Start'}
-            </button>
-            <button
-              onClick={() => {
-                // Set the minutes to the initial value and let seconds be equal to zero.
-                // Reset the current initial minutes value.
-                setMinutes(initialMinutes.current);
-                setSeconds(0);
-                initialMinutes.current = 0;
-              }}
-              className="text-white font-mono text-lg focus:outline-none"
-            >
-              Reset
-            </button>
-          </div>
-        </div>
-        {/* <div id="buttons" className={'flex flex-col justify-between w-10 h-24'}>
-          <button
-            className={classNames(styles['custom-button'])}
-            id="plus-button"
-            onClick={() => setMinutes(minutes + 1)}
-          >
-            +
-          </button>
-          <button
-            className={classNames(styles['custom-button'])}
-            id="minus-button"
-            onClick={() => {
-              if (minutes != 0) {
-                setMinutes(minutes - 1);
-              }
-            }}
-          >
-            -
-          </button>
-        </div> */}
+        </CircularProgressbarWithChildren>
       </div>
+
+      {hasBreakStarted ? (
+        <span className="text-2xl mt-5" style={{ color: `rgba(226, 107, 90)` }}>
+          Take a break !
+        </span>
+      ) : (
+        <></>
+      )}
+      <button
+        onClick={() => setTimerState(!hasTimerStarted)}
+        className="text-white font-mono text-2xl focus:outline-none my-5"
+      >
+        {hasTimerStarted ? 'Pause' : 'Start'}
+      </button>
+      <button
+        onClick={() => {
+          // Set the minutes to the initial value and let seconds be equal to zero.
+          // Reset the current initial minutes value.
+          if (hasBreakStarted) {
+            setBreakMinutes(initialBreakMinutes.current);
+            setBreakSeconds(0);
+            initialBreakMinutes.current = 0;
+            setTimerState(false);
+          } else {
+            setPomodoroMinutes(initialPomodoroMinutes.current);
+            setPomodoroSeconds(0);
+            initialPomodoroMinutes.current = 0;
+            setTimerState(false);
+          }
+        }}
+        className="text-white font-mono text-lg focus:outline-none"
+      >
+        Reset
+      </button>
+
+      {/* </div> */}
+
       <FontAwesomeIcon
         onClick={() => toggleModal(!showModal)}
         icon={faCog}
         size={'lg'}
-        className={classNames('text-red-400 shadow-lg', styles['icon'])}
+        className={classNames('text-red-400 shadow-lg my-4', styles['icon'])}
       />
       {showModal ? (
         <Modal>
           <Settings
             toggleModal={toggleModal}
-            minutes={minutes}
-            setMinutes={setMinutes}
+            pomodoroMinutes={pomodoroMinutes}
+            setPomodoroMinutes={setPomodoroMinutes}
+            breakMinutes={breakMinutes}
+            setBreakMinutes={setBreakMinutes}
           />
         </Modal>
       ) : (
         <></>
       )}
+      <audio id="success-audio">
+        <source src={sound} type="audio/mpeg" />
+      </audio>
     </div>
   );
+  function countPomodoroDown() {
+    if (pomodoroSeconds == 0 && pomodoroMinutes == 0) {
+      setTimerState(true);
+      setBreakState(true);
+      audioElement.play();
+
+      setPomodoroMinutes(initialPomodoroMinutes.current);
+    } else if (pomodoroSeconds == 0) {
+      setPomodoroSeconds(59);
+      if (initialPomodoroMinutes.current < pomodoroMinutes) {
+        initialPomodoroMinutes.current = pomodoroMinutes;
+      }
+      setPomodoroMinutes(pomodoroMinutes - 1);
+    } else {
+      setPomodoroSeconds(pomodoroSeconds - 1);
+    }
+  }
+  function countBreakDown() {
+    if (breakSeconds == 0 && breakMinutes == 0) {
+      setTimerState(false);
+      setBreakState(false);
+      audioElement.play();
+      setBreakMinutes(initialBreakMinutes.current);
+    } else if (breakSeconds == 0) {
+      setBreakSeconds(59);
+      if (initialBreakMinutes.current < breakMinutes) {
+        initialBreakMinutes.current = breakMinutes;
+      }
+      setBreakMinutes(breakMinutes - 1);
+    } else {
+      setBreakSeconds(breakSeconds - 1);
+    }
+  }
 };
 
 // The issue with using setInterval only is that the passed closure has its old state saved and we cannot change the reference

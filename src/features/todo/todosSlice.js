@@ -38,6 +38,7 @@ const initialState = todosAdapter.getInitialState({
   isLoading: false,
   error: false,
 });
+
 const todosFetched = createAsyncThunk('todos/todosFetched', async () => {
   const todos = await localForage.getItem('todos');
   if (!todos) {
@@ -45,6 +46,7 @@ const todosFetched = createAsyncThunk('todos/todosFetched', async () => {
   }
   return todos;
 });
+
 const todosSlice = createSlice({
   initialState,
   name: 'todos',
